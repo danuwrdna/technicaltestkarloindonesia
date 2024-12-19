@@ -1,0 +1,30 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        
+        // Tambahkan repository Mapbox
+        maven {
+            url "https://api.mapbox.com/downloads/v2/releases/maven"
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = "mapbox"
+                password = "sk.eyJ1Ijoia2FybG9kZXYiLCJhIjoiY200MHF0ZHBqMjhldzJxcjBpc2VwajYydiJ9.NOueN9Rz45RaByovuIqeNg"
+            }
+        }
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
